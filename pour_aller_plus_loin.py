@@ -2,7 +2,7 @@ import string
 import hashlib
 import json
 
-# Condition
+# Fonction pour saisir le mot de passe de l'utilisateur
 def mdp_user():
     while True:
         mdp = input("Entrez votre mot de passe : ")
@@ -19,51 +19,52 @@ def mdp_user():
         else:
             return mdp
 
-# Cryptage
+# Fonction pour hasher le mot de passe
 def hashed_mdp(mdp):
-    hashed_mdp = hashlib.sha256(mdp.encode()).hexdigest()
-    return hashed_mdp
+    return hashlib.sha256(mdp.encode()).hexdigest()
 
 # Fonction pour enregistrer un nouveau mot de passe
 def enregistrer_mot_de_passe(nom_utilisateur):
-    while True:  # Boucle extérieure pour réessayer en cas de collision
-        try:
-            with open("mots_de_passe.json", "r") as fichier:
-                donnees = json.load(fichier)
-        except (FileNotFoundError, json.JSONDecodeError):
-            donnees = {}
+    try:
+        with open("mots_de_passe.json", "r") as fichier:
+            donnees = json.load(fichier)
+    except (FileNotFoundError, json.JSONDecodeError):
+        donnees = {}
 
-        # Vérifier si l'utilisateur a déjà un mot de passe enregistré
-        if nom_utilisateur in donnees and "mot_de_passe" in donnees[nom_utilisateur]:
-            print("Un mot de passe est déjà enregistré pour cet utilisateur.")
-            choix = input("Voulez-vous enregistrer un nouveau mot de passe ou afficher vos mots de passe existants? (new/view): ").lower()
-            if choix == 'new':
-                mdp_user()
-                
-                continue
-            elif choix == 'view':
-                afficher_mots_de_passe(donnees)
-                return False
-            else:
-                return False
-        else:
+    donnees.setdefault(nom_utilisateur, {"mots_de_passe": []})
+
+    while True:
+        choix = input("Voulez-vous enregistrer un nouveau mot de passe ou afficher vos mots de passe existants? (nouveau/voir/fin): ").lower()
+        if choix == 'nouveau':
             mdp_saisi = mdp_user()
             mdp_hache = hashed_mdp(mdp_saisi)
 
-            # Ajouter les données
-            donnees.setdefault(nom_utilisateur, {})["mot_de_passe"] = mdp_hache
+            if mdp_hache not in donnees[nom_utilisateur]["mots_de_passe"]:
+                donnees[nom_utilisateur]["mots_de_passe"].append(mdp_hache)
+                print("Nouveau mot de passe enregistré.")
+            else:
+                print("Ce mot de passe est déjà enregistré pour cet utilisateur.")
 
-            with open("mots_de_passe.json", "w") as fichier:
-                json.dump(donnees, fichier, indent=4)
+        elif choix == 'voir':
+            afficher_mots_de_passe(donnees)
+        elif choix == 'fin':
+            break
+        else:
+            print("Choix non valide.")
 
-            return True
+    with open("mots_de_passe.json", "w") as fichier:
+        json.dump(donnees, fichier, indent=4)
+
+    return True
 
 # Fonction pour afficher les mots de passe existants
 def afficher_mots_de_passe(donnees):
     print("Mots de passe enregistrés :")
     for utilisateur, info in donnees.items():
-        mot_de_passe = info.get("mot_de_passe", "N/A")
-        print(f"{utilisateur}: {mot_de_passe}")
+        mots_de_passe = info.get("mots_de_passe", ["N/A"])
+        print(f"{utilisateur}:")
+        for mdp in mots_de_passe:
+            print(f"  - {mdp}")
 
 # Demander et hasher le mot de passe
 nom_utilisateur = input("Entrez votre nom d'utilisateur : ")

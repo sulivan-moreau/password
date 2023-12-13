@@ -4,5 +4,26 @@
     },
     "Julien": {
         "mot_de_passe": "83e6c3d7fa9b2f4542ab77817198d0c86966fefe5ced2d8247bbb23ba5421eac"
+    },
+    "Thomas": {
+        "mot_de_passe": "6a793ab411854cc54c69c9f261cbc9576e369dcfa3fc679b75bbbeeed9181890"
+    },
+    "Sulivan": {
+        "mot_de_passe": "c9252dbb16c0e6f13ca80d1f9e69699b8063817909afec23284632978e5f6515",
+        "mots_de_passe": [
+            "092ad7e12b6e0b90b6216591a7fbd9bcd989be636bbe48951102a5d707e7622d",
+            "9ee0903e1437e016ad249c0caa6b932db779ac19d280348419c7b11e33e93c6f",
+            "7fcffdafbfef0b7c9d566cff9a61258b6f3c6ddbc446367cdd4994d3d12a31b3",
+            "1f1a9fd75b8776f8a0d8a68d56085f9d664742514722681c92f4f1d5f5434fdd",
+            "31251b7fec5ab76ff850fe2dec54eb517c1550df0a377a6ead387ca57fc1d4c3"
+        ]
+    },
+    "sharlen": {
+        "mot_de_passe": "0a8953bf91e67ec3d9011b9f9f655bf7bd450e3a1b98b2b0e31a97799593748b"
+    },
+    "Luc": {
+        "mots_de_passe": [
+            "092ad7e12b6e0b90b6216591a7fbd9bcd989be636bbe48951102a5d707e7622d"
+        ]
     }
 }
